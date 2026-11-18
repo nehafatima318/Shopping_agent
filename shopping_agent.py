@@ -24,6 +24,8 @@ load_dotenv()
 
 llm = ChatGroq(model="qwen/qwen3.8-27b", temperature=0)
 vision_llm = ChatGroq(model="qwen/qwen3.8-27b", temperature=0)
+
+
 @tool
 def search_products(query: str, max_price: Optional[float] = None, is_organic: Optional[bool] = None) -> str:
     """
@@ -154,7 +156,7 @@ def describe_product_image(image_path: str) -> str:
 agent = create_agent(
     tools=[search_products, get_rating, checkout, describe_product_image],
     model=llm,
-    checkpointer=InMemorySaver()
+    checkpointer=InMemorySaver(),
     system_prompt=(
         "You are a helpful shopping assistant. Follow these rules strictly.\n\n"
         "IMAGE SEARCH — when the user provides an image path:\n"
@@ -206,7 +208,7 @@ if __name__ == "__main__":
         },
         config={
         "configurable": {
-            "thread_id": "user_123"
+            "thread_id": "shopping_assistant_1",
         }
     }
         
